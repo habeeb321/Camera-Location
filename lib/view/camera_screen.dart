@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:week_6_camera/screens/screen_two.dart';
+import 'package:get/get.dart';
+import 'package:week_6_camera/controller/camera_controller.dart';
+import 'package:week_6_camera/view/screen_two.dart';
 
 ValueNotifier<List> db = ValueNotifier([]);
 
@@ -11,6 +11,7 @@ class CameraScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CameraController cameraController = Get.put(CameraController());
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -59,39 +60,14 @@ class CameraScreen extends StatelessWidget {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          cameraButton();
-        },
-        child: const Icon(Icons.camera_enhance),
-      ),
+      floatingActionButton: GetBuilder<CameraController>(builder: (context) {
+        return FloatingActionButton(
+          onPressed: () {
+            cameraController.cameraButton();
+          },
+          child: const Icon(Icons.camera_enhance),
+        );
+      }),
     );
-  }
-}
-
-void cameraButton() async {
-  final image = await ImagePicker().pickImage(source: ImageSource.camera);
-  if (image == null) {
-    return;
-  } else {
-    Directory? directory = await getExternalStorageDirectory();
-    File imagepath = File(image.path);
-
-    await imagepath.copy('${directory!.path}/${DateTime.now()}.jpg');
-
-    getitems(directory);
-  }
-}
-
-getitems(Directory directory) async {
-  final listDir = await directory.list().toList();
-  db.value.clear();
-  for (var i = 0; i < listDir.length; i++) {
-    if (listDir[i].path.substring(
-            (listDir[i].path.length - 4), (listDir[i].path.length)) ==
-        '.jpg') {
-      db.value.add(listDir[i].path);
-      db.notifyListeners();
-    }
   }
 }
