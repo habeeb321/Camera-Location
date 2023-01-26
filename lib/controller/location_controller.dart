@@ -22,7 +22,16 @@ class LocationController extends GetxController {
     });
   }
 
-  Future<void> openMap(String lat, String long) async {
+  Future<void> getLocation() async {
+    await getCurrentLocation().then((value) {
+      lat = '${value.latitude}';
+      long = '${value.longitude}';
+      locationMessage;
+      liveLocation();
+    });
+  }
+
+  Future<void> openMap() async {
     String googleUrl =
         "https://www.google.com/maps/search/?api=1&query=$lat,$long";
     await canLaunchUrlString(googleUrl)
@@ -50,5 +59,9 @@ class LocationController extends GetxController {
     }
 
     return await Geolocator.getCurrentPosition();
+  }
+
+  Future<void> accessLocation() async {
+    await getLocation().then((value) => openMap());
   }
 }

@@ -6,8 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:week_6_camera/view/camera_screen.dart';
 
 class CameraController extends GetxController {
-  
-  void cameraButton() async {
+  cameraButton() async {
     final image = await ImagePicker().pickImage(source: ImageSource.camera);
     if (image == null) {
       return;
