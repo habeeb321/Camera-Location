@@ -31,12 +31,15 @@ environment:
 dependencies:
   camera_process: ^0.0.7
   cupertino_icons: ^1.0.2
+  firebase_core: ^2.4.1
   flutter:
     sdk: flutter
-  geoflutterfire: ^3.0.3
+  geolocator: ^9.0.2
   get: ^4.6.5
+  google_maps_flutter: ^2.2.3
   image_picker: ^0.8.6
   path_provider: ^2.0.11
+  url_launcher: ^6.1.8
 
 dev_dependencies:
   flutter_lints: ^1.0.0
